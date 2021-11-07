@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace CourseApiDtoCrud.Api.Manage.Dtos.CategoriesDtos
+{
+    public class CategoryListItemDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int CoursesCount { get; set; }
+
+    }
+}
