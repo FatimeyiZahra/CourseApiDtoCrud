@@ -12,9 +12,12 @@ namespace CourseApiDtoCrud.Data.Entities
         public string Name { get; set; }
         public string Desc { get; set; }
         public double Price { get; set; }
+
         public DateTime CreatedAt { get; set; }
         public DateTime StartDate { get; set; }
+
         public Category Category { get; set; }
+        public List<CourseTag> CourseTags { get; set; }
 
     }
 }

@@ -2,6 +2,7 @@
 using CourseApiDtoCrud.Api.Manage.Dtos.CategoriesDtos;
 using CourseApiDtoCrud.Data;
 using CourseApiDtoCrud.Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace CourseApiDtoCrud.Api.Manage.Controllers
 {
+    [Authorize(Roles = "Admin,SuperAdmin")]
     [Route("api/manage/[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBase
@@ -25,7 +27,7 @@ namespace CourseApiDtoCrud.Api.Manage.Controllers
             _mapper = mapper;
         }
 
-        //------------------------------GetAll-----------------------------------------https://localhost:44305/api/manage/categories
+        //------------------------------GetAll--------------------------------------------https://localhost:44305/api/manage/categories
         [HttpGet]
         [Route("")]
         public async Task<IActionResult> GetAll(int page = 1)
@@ -56,7 +58,21 @@ namespace CourseApiDtoCrud.Api.Manage.Controllers
         }
 
 
-        //------------------------------CREATE-----------------------------------------https://localhost:44305/api/manage/categories
+
+        //------------------------------Get-All-CATEGORY-WITHOUT-CATEGORY--------------https://localhost:44305/api/manage/categories/all
+
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAll()
+        {
+            List<Category> categories = _context.Categories.ToList();
+
+            List<CategoryItemDto> categoryItems = _mapper.Map<List<CategoryItemDto>>(categories);
+
+            return Ok(categoryItems);
+        }
+
+
+        //------------------------------CREATE--------------------------------------------https://localhost:44305/api/manage/categories
 
         [HttpPost("")]
         public async Task<IActionResult> Create(CategoryCreateDto createDto)
@@ -74,7 +90,7 @@ namespace CourseApiDtoCrud.Api.Manage.Controllers
         }
 
 
-        //------------------------------UPDATE-----------------------------------------https://localhost:44305/api/manage/categories/1
+        //------------------------------UPDATE------------------------------------------https://localhost:44305/api/manage/categories/1
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, CategoryCreateDto updateDto)
         {
@@ -93,7 +109,7 @@ namespace CourseApiDtoCrud.Api.Manage.Controllers
         }
 
 
-        //------------------------------Delete-----------------------------------------https://localhost:44305/api/manage/categories/1
+        //------------------------------Delete------------------------------------------https://localhost:44305/api/manage/categories/1
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)

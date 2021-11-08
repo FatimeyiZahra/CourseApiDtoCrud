@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CourseApiDtoCrud.Api.Manage.Dtos.CategoriesDtos
+namespace CourseApiDtoCrud.Data.Entities
 {
-    public class CategoryItemDto
+    public class Tag
     {
         public int Id { get; set; }
         public string Name { get; set; }
+
+        public List<CourseTag> CourseTags { get; set; }
     }
 }

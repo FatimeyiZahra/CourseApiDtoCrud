@@ -76,7 +76,42 @@ namespace CourseApiDtoCrud.Api.Manage.Controllers
         }
 
 
+        //-----------------------------UPDATE-COURSE----------------------------------------https://localhost:44305/api/manage/courses/1
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, CourseCreateDto createDto)
+        {
+            Course course = await _context.Courses.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (course == null) return NotFound();
+
+            if (!_context.Categories.Any(x => x.Id == createDto.CategoryId && !x.IsDeleted)) return NotFound();
+
+            course.CategoryId = createDto.CategoryId;
+            course.Name = createDto.Name;
+            course.Price = createDto.Price;
+            course.StartDate = createDto.StartDate;
+            course.Desc = createDto.Desc;
+
+            _context.SaveChanges();
+
+            return NoContent();
+        }
 
 
+        //-----------------------------DELETE-COURSE----------------------------------------https://localhost:44305/api/manage/courses/1
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            Course course = await _context.Courses.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (course == null) return NotFound();
+
+            _context.Courses.Remove(course);
+            _context.SaveChanges();
+
+            return NoContent();
+        }
     }
 }
