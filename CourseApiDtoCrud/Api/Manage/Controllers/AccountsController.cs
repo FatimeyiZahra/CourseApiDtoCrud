@@ -27,7 +27,7 @@ namespace CourseApiDtoCrud.Api.Manage.Controllers
             _roleManager = roleManager;
             _jwtService = jwtService;
         }
-      
+
 
 
         //[HttpGet("test")]
@@ -49,6 +49,49 @@ namespace CourseApiDtoCrud.Api.Manage.Controllers
         //}
 
 
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(UserForRegisterDTO model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var user = new AppUser
+            {
+                UserName = model.UserName,
+                Email = model.Email,
+                FullName=model.FullName
+                
+            };
+
+            await _userManager.CreateAsync(user, model.Password);
+            await _userManager.AddToRoleAsync(user, "Admin");
+
+            return NoContent();
+        }
+
+
+
+
+        /// <summary>
+        /// Api endpoint return  new access token
+        /// </summary>
+        /// <param name="loginDto"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /login
+        ///     {
+        ///        "username": "admin1",
+        ///        "password": admin123
+        ///     }
+        /// </remarks>
+        /// <response code="401">Password incorrect</response>
+        /// <response code="404">Admin not found</response>
+        /// <response code="200">Success</response>
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginReturnDto))]
         [HttpPost("login")]
         public async Task<IActionResult> Login(AdminLoginDto loginDto)
         {
@@ -60,11 +103,11 @@ namespace CourseApiDtoCrud.Api.Manage.Controllers
 
             string token = _jwtService.Generate(_userManager.GetRolesAsync(user).Result, user);
 
-            //LoginReturnDto loginReturnDto = new LoginReturnDto
-            //{
-            //    UserName = user.UserName,
-            //    Token = token
-            //};
+            LoginReturnDto loginReturnDto = new LoginReturnDto
+            {
+                UserName = user.UserName,
+                Token = token
+            };
             return Ok(token);
         }
 

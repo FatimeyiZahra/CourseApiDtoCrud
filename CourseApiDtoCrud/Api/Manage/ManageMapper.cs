@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CourseApiDtoCrud.Api.Manage.Dtos.CategoriesDtos;
 using CourseApiDtoCrud.Api.Manage.Dtos.CourseDto;
+using CourseApiDtoCrud.Api.Manage.Dtos.TagDtos;
 using CourseApiDtoCrud.Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,11 @@ namespace CourseApiDtoCrud.Api.Manage
             CreateMap<CourseCreateDto, Course>();
             CreateMap<Course, CourseListItemDto>();
             CreateMap<Course, CourseDetailedDto>();
+
+            CreateMap<TagCreateDto, Tag>();
+            CreateMap<Tag, TagListItemDto>();
+            CreateMap<Tag, TagDetailedDto>();
+            CreateMap<Tag, TagItemDto>();
         }
     }
 }

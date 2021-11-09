@@ -5,9 +5,7 @@ using System.Threading.Tasks;
 
 namespace CourseApiDtoCrud.Api.Manage.Dtos.CategoriesDtos
 {
-    public class CategoryListDto
+    public class CategoryListDto : ListDto<CategoryListItemDto>
     {
-        public List<CategoryListItemDto> Data { get; set; }
-        public int TotalPage { get; set; }
     }
 }

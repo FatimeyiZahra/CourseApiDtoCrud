@@ -64,7 +64,7 @@ namespace CourseApiDtoCrud.Api.Manage.Controllers
         [HttpGet("all")]
         public async Task<IActionResult> GetAll()
         {
-            List<Category> categories = _context.Categories.ToList();
+            List<Category> categories =await _context.Categories.ToListAsync();
 
             List<CategoryItemDto> categoryItems = _mapper.Map<List<CategoryItemDto>>(categories);
 
