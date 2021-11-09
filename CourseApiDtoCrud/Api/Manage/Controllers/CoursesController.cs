@@ -50,11 +50,12 @@ namespace CourseApiDtoCrud.Api.Manage.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            Course course = await _context.Courses.FirstOrDefaultAsync(x => x.Id == id);
+            Course course = await _context.Courses.Include(x => x.CourseTags).ThenInclude(x => x.Tag).FirstOrDefaultAsync(x => x.Id == id);
 
             if (course == null) return NotFound();
 
             CourseDetailedDto courseDto = _mapper.Map<CourseDetailedDto>(course);
+
 
             return Ok(courseDto);
         }
@@ -69,6 +70,11 @@ namespace CourseApiDtoCrud.Api.Manage.Controllers
 
             Course course = _mapper.Map<Course>(createDto);
 
+            if (createDto.TagIds != null && createDto.TagIds.Count > 0)
+            {
+                course.CourseTags = createDto.TagIds.Select(x => new CourseTag { TagId = x }).ToList();
+            }
+
             await _context.Courses.AddAsync(course);
             await _context.SaveChangesAsync();
 
@@ -81,7 +87,7 @@ namespace CourseApiDtoCrud.Api.Manage.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, CourseCreateDto createDto)
         {
-            Course course = await _context.Courses.FirstOrDefaultAsync(x => x.Id == id);
+            Course course = await _context.Courses.Include(x => x.CourseTags).FirstOrDefaultAsync(x => x.Id == id);
 
             if (course == null) return NotFound();
 
@@ -92,6 +98,14 @@ namespace CourseApiDtoCrud.Api.Manage.Controllers
             course.Price = createDto.Price;
             course.StartDate = createDto.StartDate;
             course.Desc = createDto.Desc;
+
+
+            course.CourseTags.RemoveRange(0, course.CourseTags.Count);
+
+            if (createDto.TagIds != null && createDto.TagIds.Count > 0)
+            {
+                course.CourseTags = createDto.TagIds.Select(x => new CourseTag { TagId = x }).ToList();
+            }
 
             _context.SaveChanges();
 

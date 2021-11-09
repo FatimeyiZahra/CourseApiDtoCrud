@@ -14,5 +14,12 @@ namespace CourseApiDtoCrud.Api.Manage.Dtos.CourseDto
         public double Price { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime CreatedAt { get; set; }
+        public List<TagInCourseDetailedDto> CourseTags { get; set; }
+    }
+
+    public class TagInCourseDetailedDto
+    {
+        public int TagId { get; set; }
+        public string Name { get; set; }
     }
 }

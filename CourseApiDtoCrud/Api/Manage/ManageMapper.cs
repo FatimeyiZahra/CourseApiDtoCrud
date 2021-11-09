@@ -23,6 +23,9 @@ namespace CourseApiDtoCrud.Api.Manage
             CreateMap<CourseCreateDto, Course>();
             CreateMap<Course, CourseListItemDto>();
             CreateMap<Course, CourseDetailedDto>();
+            //.ForMember(dest => dest.Tags, from => from.MapFrom(x => x.CourseTags.Select(c => new TagInCourseDetailedDto { Id = c.TagId, Name = c.Tag.Name }).ToList()));
+            CreateMap<CourseTag, TagInCourseDetailedDto>()
+          .ForMember(dest => dest.Name, from => from.MapFrom(x => x.Tag.Name));
 
             CreateMap<TagCreateDto, Tag>();
             CreateMap<Tag, TagListItemDto>();

@@ -13,6 +13,7 @@ namespace CourseApiDtoCrud.Api.Manage.Dtos.CourseDto
         public string Desc { get; set; }
         public double Price { get; set; }
         public DateTime StartDate { get; set; }
+        public List<int> TagIds { get; set; }
     }
     public class CourseCreateDtoValidator : AbstractValidator<CourseCreateDto>
     {
