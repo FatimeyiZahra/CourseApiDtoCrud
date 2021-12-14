@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace CourseApiDtoCrud.Api.Manage.Controllers
 {
-    [Authorize(Roles = "Admin,SuperAdmin")]
+    //[Authorize(Roles = "Admin,SuperAdmin")]
     [Route("api/manage/[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBase

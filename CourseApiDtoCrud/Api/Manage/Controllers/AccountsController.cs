@@ -64,7 +64,7 @@ namespace CourseApiDtoCrud.Api.Manage.Controllers
             };
 
             await _userManager.CreateAsync(user, model.Password);
-            await _userManager.AddToRoleAsync(user, "Admin");
+            await _userManager.AddToRoleAsync(user, "Member");
 
             return NoContent();
         }

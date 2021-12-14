@@ -27,11 +27,12 @@ namespace CourseApiDtoCrud.Services
         {
             List<Claim> claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
-            claims.Add(new Claim(ClaimTypes.Name, user.UserName));
+            //claims.Add(new Claim(ClaimTypes.Name, user.UserName));
+            claims.Add(new Claim("UserName", user.UserName));
             claims.Add(new Claim("FullName", user.FullName));
 
-            claims.AddRange(roles.Select(x => new Claim(ClaimTypes.Role, x)).ToList());
-
+            //claims.AddRange(roles.Select(x => new Claim(ClaimTypes.Role, x)).ToList());
+            claims.AddRange(roles.Select(x => new Claim("Role", x)).ToList());
             SymmetricSecurityKey symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("JWT:secret").Value));
             SigningCredentials creds = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
 
